@@ -25,24 +25,36 @@ class LinkedList(object):
         self.count += 1
 
     def pop_head(self):
-        if self.head or not self.tail:
+        if self.head:
             popped_value = self.head.data
+        if self.head is self.tail:
+            self.head.next = None
+            self.head.prev = None
+            self.count -= 1
+            return popped_value
+        elif self.head.next:
             self.head.next.prev = None
             self.head = self.head.next
             self.count -= 1
             return popped_value
         else:
-            raise Exception("Unable to pop because linked list head is None")
+            raise Exception("Unable to pop linked list head.")
 
     def pop_tail(self):
-        if self.tail or not self.head:
+        if self.tail:
             popped_value = self.tail.data
+        if self.tail is self.head:
+            self.tail.prev = None
+            self.tail.next = None
+            self.count -= 1
+            return popped_value
+        elif self.tail.prev:
             self.tail.prev.next = None
             self.tail = self.tail.prev
             self.count -= 1
             return popped_value
         else:
-            raise Exception("Unable to pop because linked list tail is None")
+            raise Exception("Unable to pop linked list tail.")
 
     def peek_head(self):
         return self.head.data
