@@ -1,56 +1,31 @@
 class Node(object):
-    def __init__(self, data, next, prev):
+    def __init__(self, data, next):
         self.data = data
         self.next = next
-        self.prev = prev
 
 
 class LinkedList(object):
     def __init__(self):
         self.head = None
-        self.tail = None
         self.count = 0
 
     def add(self, data):
-        node = Node(data, None, None)
+        node = Node(data, None)
         if self.head is None:
             self.head = node
-            self.tail = node
             self.next = None
-            self.prev = None
         else:
-            self.head.prev = node
             node.next = self.head
             self.head = node
         self.count += 1
 
     def pop(self):
         if not self.head:
-            return 'pop not valid'
+            raise Exception("Unable to pop because linked list head is None")
         popped_value = self.head.data
         self.head = self.head.next
         self.count -= 1
         return popped_value
-
-    def pop_dll_head(self):
-        if self.head or not self.tail:
-            popped_value = self.head.data
-            self.head.next.prev = None
-            self.head = self.head.next
-            self.count -= 1
-            return popped_value
-        else:
-            return 'wrong'
-
-    def pop_dll_tail(self):
-        if self.tail or not self.head:
-            popped_value = self.tail.data
-            self.tail.prev.next = None
-            self.tail = self.tail.prev
-            self.count -= 1
-            return popped_value
-        else:
-            return 'wrong'
 
     def peek(self):
         return self.head.data
@@ -92,20 +67,6 @@ class LinkedList(object):
                 self.count -= 1
                 break
 
-    def remove_dll(self, node_to_remove):
-        if node_to_remove == self.head:
-            self.pop_dll_head()
-            return
-        elif node_to_remove == self.tail:
-            self.pop_dll_tail()
-            return
-
-        node_to_remove.prev.next = node_to_remove.next
-        node_to_remove.next.prev = node_to_remove.prev
-        self.count -= 1
-        return
-
-
 ll = LinkedList()
 ll.add(1)
 ll.add(2)
@@ -120,8 +81,4 @@ ll.add(7)
 # ll.head.next.next.next.next.next = ll.head.next
 # ll.head.next.next.next.next.next.next.next.next = ll.head.next.next
 # ll.pop()
-# ll.harvey()
 # ll.is_valid()
-
-
-# def remove_node(self):
