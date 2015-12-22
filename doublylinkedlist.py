@@ -16,8 +16,6 @@ class LinkedList(object):
         if self.head is None:
             self.head = node
             self.tail = node
-            self.next = None
-            self.prev = None
         else:
             self.head.prev = node
             node.next = self.head
@@ -25,11 +23,14 @@ class LinkedList(object):
         self.count += 1
 
     def pop_head(self):
-        if self.head:
-            popped_value = self.head.data
+        if not self.head:
+            raise Exception('You cannot pop_head() when the LL is empty.')
+
+        popped_value = self.head.data
         if self.head is self.tail:
             self.head.next = None
             self.head.prev = None
+            self.head = None
             self.count -= 1
             return popped_value
         elif self.head.next:
@@ -41,11 +42,14 @@ class LinkedList(object):
             raise Exception("Unable to pop linked list head.")
 
     def pop_tail(self):
-        if self.tail:
-            popped_value = self.tail.data
+        if not self.tail:
+            raise Exception('You cannot pop_head() when the LL is empty.')
+
+        popped_value = self.tail.data
         if self.tail is self.head:
             self.tail.prev = None
             self.tail.next = None
+            self.tail = None
             self.count -= 1
             return popped_value
         elif self.tail.prev:
@@ -57,10 +61,16 @@ class LinkedList(object):
             raise Exception("Unable to pop linked list tail.")
 
     def peek_head(self):
-        return self.head.data
+        if self.head:
+            return self.head.data
+        else:
+            raise Exception('No node to pop')
 
     def peek_tail(self):
-        return self.tail.data
+        if self.tail:
+            return self.tail.data
+        else:
+            raise Exception('No node to pop')
 
     def size(self):
         return self.count
@@ -83,12 +93,14 @@ class LinkedList(object):
     #             return True
     #     return False
 
-    def remove_dll(self, node_to_remove):
+    def remove_node(self, node_to_remove):
+        if not self.head:
+            raise Exception()
         if node_to_remove == self.head:
-            self.pop_dll_head()
+            self.pop_head()
             return
         elif node_to_remove == self.tail:
-            self.pop_dll_tail()
+            self.pop_tail()
             return
 
         node_to_remove.prev.next = node_to_remove.next
